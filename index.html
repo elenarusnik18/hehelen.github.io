@@ -126,6 +126,9 @@
             transition: all 0.3s ease;
             z-index: 1001;
             white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .collaborate-btn:hover {
@@ -138,16 +141,51 @@
             transform: translateY(0) scale(0.98);
         }
 
-        .collaborate-btn::before {
-            content: '✉️';
-            margin-right: 8px;
+        .collaborate-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        /* ============================================
+           SVG ИКОНКИ - ОБЩИЕ СТИЛИ
+           ============================================ */
+        .svg-icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .svg-icon-large {
+            width: 80px;
+            height: 80px;
+            fill: #c084fc;
+            filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.5));
+        }
+
+        .svg-icon-card {
+            width: 64px;
+            height: 64px;
+            fill: #c084fc;
+            margin-bottom: 20px;
+        }
+
+        .svg-icon-contact {
+            width: 48px;
+            height: 48px;
+            fill: #c084fc;
+            margin-bottom: 15px;
+        }
+
+        .svg-icon-btn {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
         }
 
         /* ============================================
            МОДАЛЬНОЕ ОКНО (ФОРМА)
            ============================================ */
         .modal-overlay {
-            /* Затемнение фона */
             position: fixed;
             top: 0;
             left: 0;
@@ -155,16 +193,10 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(5px);
-            
-            /* Скрыто по умолчанию */
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            
-            /* Поверх всех элементов */
             z-index: 2000;
-            
-            /* Центрирование формы */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -172,58 +204,40 @@
         }
 
         .modal-overlay.active {
-            /* Показываем модальное окно */
             opacity: 1;
             visibility: visible;
         }
 
         .modal-content {
-            /* Белый фон формы */
             background: linear-gradient(135deg, #1a1f4b 0%, #2d1b69 100%);
-            
-            /* Размеры */
             width: 100%;
             max-width: 500px;
-            
-            /* Отступы и скругление */
             padding: 40px;
             border-radius: 20px;
-            
-            /* Тень и граница */
             box-shadow: 0 20px 60px rgba(192, 132, 252, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            
-            /* Анимация появления */
             transform: translateY(-50px);
             transition: all 0.3s ease;
-            
-            /* Позиционирование */
             position: relative;
         }
 
         .modal-overlay.active .modal-content {
-            /* Возвращаем форму на место при открытии */
             transform: translateY(0);
         }
 
         .modal-close {
-            /* Кнопка закрытия (крестик) */
             position: absolute;
             top: 15px;
             right: 20px;
-            
-            /* Размер и цвет */
             font-size: 28px;
             color: #ffffff;
-            
-            /* Убираем стили кнопки */
             background: none;
             border: none;
             cursor: pointer;
-            
-            /* Плавность */
             transition: all 0.3s ease;
             opacity: 0.7;
+            padding: 0;
+            line-height: 1;
         }
 
         .modal-close:hover {
@@ -232,17 +246,31 @@
             color: #c084fc;
         }
 
+        .modal-close svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+
         .modal-title {
-            /* Заголовок формы */
             font-size: 24px;
             font-weight: 700;
             text-align: center;
             margin-bottom: 10px;
             color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-title svg {
+            width: 28px;
+            height: 28px;
+            fill: #c084fc;
         }
 
         .modal-subtitle {
-            /* Подзаголовок */
             font-size: 14px;
             text-align: center;
             opacity: 0.7;
@@ -254,12 +282,10 @@
            СТИЛИ ФОРМЫ
            ============================================ */
         .form-group {
-            /* Отступ между полями */
             margin-bottom: 20px;
         }
 
         .form-label {
-            /* Label поля */
             display: block;
             font-size: 14px;
             font-weight: 600;
@@ -270,28 +296,20 @@
         .form-input,
         .form-textarea,
         .form-select {
-            /* Поля ввода */
             width: 100%;
             padding: 12px 16px;
-            
-            /* Фон и граница */
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            
-            /* Текст */
             color: #ffffff;
             font-size: 14px;
             font-family: inherit;
-            
-            /* Плавность */
             transition: all 0.3s ease;
         }
 
         .form-input:focus,
         .form-textarea:focus,
         .form-select:focus {
-            /* При фокусе */
             outline: none;
             border-color: #c084fc;
             box-shadow: 0 0 15px rgba(192, 132, 252, 0.3);
@@ -304,16 +322,14 @@
         }
 
         .form-textarea {
-            /* Текстовое поле */
             min-height: 100px;
             resize: vertical;
         }
 
         .form-select {
-            /* Выпадающий список */
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-image: url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 16px center;
             padding-right: 40px;
@@ -324,63 +340,29 @@
             color: #ffffff;
         }
 
-        .form-checkbox-group {
-            /* Группа чекбоксов */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .form-checkbox {
-            /* Чекбокс */
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .form-checkbox input[type="checkbox"] {
-            /* Стилизация чекбокса */
-            width: 18px;
-            height: 18px;
-            accent-color: #c084fc;
-            cursor: pointer;
-        }
-
-        .form-checkbox span {
-            font-size: 14px;
-            color: #ffffff;
-        }
-
-        /* ============================================
-           КНОПКА ОТПРАВКИ
-           ============================================ */
         .submit-btn {
-            /* Кнопка отправки формы */
             width: 100%;
             padding: 14px 24px;
-            
-            /* Градиент */
             background: linear-gradient(135deg, #60a5fa, #c084fc);
             color: #ffffff;
-            
-            /* Убираем рамку */
             border: none;
             border-radius: 50px;
-            
-            /* Текст */
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            
-            /* Тень */
             box-shadow: 0 5px 20px rgba(192, 132, 252, 0.5);
-            
-            /* Плавность */
             transition: all 0.3s ease;
-            
-            /* Отступ сверху */
             margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
         }
 
         .submit-btn:hover {
@@ -394,17 +376,12 @@
         }
 
         .submit-btn:disabled {
-            /* Неактивная кнопка */
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* ============================================
-           СООБЩЕНИЯ ОБ УСПЕХЕ/ОШИБКЕ
-           ============================================ */
         .form-message {
-            /* Сообщение после отправки */
             padding: 15px;
             border-radius: 10px;
             margin-top: 20px;
@@ -523,7 +500,6 @@
         }
 
         .emoji-large {
-            font-size: 4rem;
             display: block;
             margin-bottom: 20px;
         }
@@ -660,8 +636,6 @@
         }
 
         .card-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
             display: block;
         }
 
@@ -705,8 +679,6 @@
         }
 
         .contact-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
             display: block;
         }
 
@@ -733,8 +705,6 @@
             background: linear-gradient(135deg, #60a5fa, #c084fc);
             border: none;
             border-radius: 50%;
-            color: white;
-            font-size: 24px;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
@@ -745,6 +715,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .scroll-top svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
         }
 
         .scroll-top.visible {
@@ -837,8 +813,9 @@
                 font-size: 1.5rem;
             }
 
-            .emoji-large {
-                font-size: 3rem;
+            .svg-icon-large {
+                width: 60px;
+                height: 60px;
             }
 
             .typing-container {
@@ -874,10 +851,6 @@
                 font-size: 11px;
             }
 
-            .collaborate-btn::before {
-                margin-right: 5px;
-            }
-
             .modal-content {
                 padding: 25px 15px;
             }
@@ -892,39 +865,34 @@
     <!-- ИНДИКАТОР ПРОКРУТКИ -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- 
-    ============================================
-    КНОПКА "ДАВАЙ СОТРУДНИЧАТЬ"
-    ============================================
-    -->
+    <!-- КНОПКА "ДАВАЙ СОТРУДНИЧАТЬ" С SVG ИКОНКОЙ -->
     <button class="collaborate-btn" onclick="openModal()">
+        <svg class="svg-icon-btn" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
         Давай сотрудничать
     </button>
 
-    <!-- 
-    ============================================
-    МОДАЛЬНОЕ ОКНО С ФОРМОЙ
-    ============================================
-    -->
+    <!-- МОДАЛЬНОЕ ОКНО С ФОРМОЙ -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
         <div class="modal-content">
-            <!-- Кнопка закрытия (крестик) -->
-            <button class="modal-close" onclick="closeModalBtn()">&times;</button>
+            <!-- Кнопка закрытия (крестик) с SVG -->
+            <button class="modal-close" onclick="closeModalBtn()">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
             
-            <!-- Заголовок -->
-            <h3 class="modal-title">🤝 Давайте сотрудничать!</h3>
+            <!-- Заголовок с SVG иконкой -->
+            <h3 class="modal-title">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+                Давайте сотрудничать!
+            </h3>
             <p class="modal-subtitle">Заполните форму, и я свяжусь с вами в ближайшее время</p>
             
-            <!-- 
-            ============================================
-            ФОРМА ОТПРАВКИ
-            ============================================
-            ВАЖНО: Замените YOUR_FORMSPREE_ID на ваш реальный ID от Formspree
-            1. Зайдите на https://formspree.io
-            2. Зарегистрируйтесь (бесплатно)
-            3. Создайте новую форму
-            4. Скопируйте ID формы и вставьте вместо YOUR_FORMSPREE_ID
-            -->
+            <!-- ФОРМА ОТПРАВКИ -->
             <form id="collaborationForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
                 
                 <!-- Поле: ФИО -->
@@ -953,12 +921,12 @@
                     >
                 </div>
 
-                <!-- Поле: Что интересует (выпадающий список) -->
+                <!-- Поле: Что интересует -->
                 <div class="form-group">
                     <label class="form-label" for="interest">Что вас интересует? *</label>
                     <select id="interest" name="interest" class="form-select" required>
                         <option value="" disabled selected>Выберите вариант</option>
-                        <option value="Разработка сайта"> Разработка сайта</option>
+                        <option value="Разработка сайта">💻 Разработка сайта</option>
                         <option value="Дизайн сайта">🎨 Дизайн сайта</option>
                         <option value="Редизайн">🔄 Редизайн существующего проекта</option>
                         <option value="Консультация">💬 Консультация</option>
@@ -977,9 +945,12 @@
                     ></textarea>
                 </div>
 
-                <!-- Кнопка отправки -->
+                <!-- Кнопка отправки с SVG -->
                 <button type="submit" class="submit-btn" id="submitBtn">
-                    📩 Отправить заявку
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Отправить заявку
                 </button>
 
                 <!-- Сообщение об успехе/ошибке -->
@@ -995,7 +966,10 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <span class="emoji-large">👋</span>
+                <!-- ✅ SVG иконка УЛЫБАЮЩЕЕСЯ ЛИЦО (обновлено) -->
+                <svg class="svg-icon svg-icon-large" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                </svg>
                 <h1>Привет! Я Елена</h1>
                 <div class="typing-container">
                     <span class="typing-text" id="typingText"></span>
@@ -1082,22 +1056,31 @@
         <div class="container">
             <h2>Мои интересы</h2>
             <div class="cards-grid">
+                <!-- Карточка 1: Чтение (SVG книга) -->
                 <div class="card" data-delay="0">
-                    <span class="card-icon">📚</span>
+                    <svg class="svg-icon svg-icon-card" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                    </svg>
                     <h3>Чтение</h3>
                     <p>Обожаю художественную литературу и профессиональную литературу. 
                        Читаю каждый день, чтобы расширять кругозор и развиваться.</p>
                 </div>
 
+                <!-- Карточка 2: Путешествия (SVG самолёт) -->
                 <div class="card" data-delay="200">
-                    <span class="card-icon">✈️</span>
+                    <svg class="svg-icon svg-icon-card" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                    </svg>
                     <h3>Путешествия</h3>
                     <p>Исследую новые города и страны. Люблю открывать для себя 
                        новые культуры, традиции и вкусы. Мечтаю объездить весь мир!</p>
                 </div>
 
+                <!-- Карточка 3: Творчество (SVG палитра) -->
                 <div class="card" data-delay="400">
-                    <span class="card-icon">🎨</span>
+                    <svg class="svg-icon svg-icon-card" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                    </svg>
                     <h3>Творчество</h3>
                     <p>Занимаюсь дизайном, фотографией и рисованием. Творчество 
                        помогает мне выражать себя и видеть красоту в деталях.</p>
@@ -1111,20 +1094,29 @@
         <div class="container">
             <h2>Контакты</h2>
             <div class="contacts-grid">
+                <!-- Email с SVG конвертом -->
                 <div class="contact-item" data-delay="0">
-                    <span class="contact-icon">📧</span>
+                    <svg class="svg-icon svg-icon-contact" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
                     <div class="contact-label">Email</div>
                     <div class="contact-value">elena.elena@mail.ru</div>
                 </div>
 
+                <!-- Телефон с SVG трубкой -->
                 <div class="contact-item" data-delay="150">
-                    <span class="contact-icon">📱</span>
+                    <svg class="svg-icon svg-icon-contact" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                    </svg>
                     <div class="contact-label">Телефон</div>
                     <div class="contact-value">+7 (999) 123-45-67</div>
                 </div>
 
+                <!-- Telegram с SVG бумажным самолётиком -->
                 <div class="contact-item" data-delay="300">
-                    <span class="contact-icon">✈️</span>
+                    <svg class="svg-icon svg-icon-contact" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.75-.33 1.42.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+                    </svg>
                     <div class="contact-label">Telegram</div>
                     <div class="contact-value">@elena_contact</div>
                 </div>
@@ -1135,12 +1127,17 @@
     <!-- ПОДВАЛ -->
     <footer>
         <div class="container">
-            <p>© 2024 Елена. Все права защищены. ❤️</p>
+            <!-- ГОД ОБНОВЛЁН НА 2026 -->
+            <p>© 2026 Елена. Все права защищены.</p>
         </div>
     </footer>
 
-    <!-- КНОПКА НАВЕРХ -->
-    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+    <!-- КНОПКА НАВЕРХ С SVG СТРЕЛКОЙ -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+        </svg>
+    </button>
 
     <script>
         // ============================================
@@ -1172,7 +1169,7 @@
         // ============================================
         function openModal() {
             document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+            document.body.style.overflow = 'hidden';
         }
 
         // ============================================
@@ -1181,7 +1178,7 @@
         function closeModal(event) {
             if (event.target === document.getElementById('modalOverlay')) {
                 document.getElementById('modalOverlay').classList.remove('active');
-                document.body.style.overflow = ''; // Возвращаем прокрутку
+                document.body.style.overflow = '';
             }
         }
 
@@ -1210,20 +1207,16 @@
         const formMessage = document.getElementById('formMessage');
 
         form.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Предотвращаем стандартную отправку
+            event.preventDefault();
 
-            // Показываем состояние загрузки
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ Отправка...';
             formMessage.className = 'form-message';
             formMessage.textContent = '';
 
-            // Собираем данные формы
             const formData = new FormData(form);
-            const data = Object.fromEntries(formData);
 
             try {
-                // Отправляем данные на Formspree
                 const response = await fetch(form.action, {
                     method: 'POST',
                     body: formData,
@@ -1233,28 +1226,28 @@
                 });
 
                 if (response.ok) {
-                    // Успешная отправка
                     formMessage.className = 'form-message success';
                     formMessage.textContent = '✅ Заявка успешно отправлена! Я свяжусь с вами в ближайшее время.';
-                    form.reset(); // Очищаем форму
+                    form.reset();
                     
-                    // Закрываем модальное окно через 3 секунды
                     setTimeout(() => {
                         closeModalBtn();
                         formMessage.className = 'form-message';
                     }, 3000);
                 } else {
-                    // Ошибка сервера
                     throw new Error('Ошибка отправки');
                 }
             } catch (error) {
-                // Ошибка
                 formMessage.className = 'form-message error';
                 formMessage.textContent = '❌ Произошла ошибка при отправке. Пожалуйста, попробуйте позже или напишите напрямую на elena.elena@mail.ru';
             } finally {
-                // Возвращаем кнопку в исходное состояние
                 submitBtn.disabled = false;
-                submitBtn.textContent = '📩 Отправить заявку';
+                submitBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                    Отправить заявку
+                `;
             }
         });
 
@@ -1386,4 +1379,4 @@
         document.addEventListener('DOMContentLoaded', observeElements);
     </script>
 </body>
-</html>
+</html>        
