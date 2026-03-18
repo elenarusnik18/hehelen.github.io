@@ -160,6 +160,33 @@
             height: 80px;
             fill: #c084fc;
             filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.5));
+            
+            /* ✅ АНИМАЦИЯ КИВКА */
+            animation: nod 3s ease-in-out infinite;
+            transform-origin: center bottom;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .svg-icon-large:hover {
+            /* При наведении - ускоряем кивок */
+            animation-duration: 1s;
+            filter: drop-shadow(0 0 30px rgba(192, 132, 252, 0.8));
+        }
+
+        @keyframes nod {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            10%, 30% {
+                transform: rotate(-5deg);
+            }
+            20%, 40% {
+                transform: rotate(5deg);
+            }
+            50% {
+                transform: rotate(0deg);
+            }
         }
 
         .svg-icon-card {
@@ -180,6 +207,22 @@
             width: 20px;
             height: 20px;
             fill: #ffffff;
+        }
+
+        .svg-icon-typing {
+            width: 24px;
+            height: 24px;
+            fill: #c084fc;
+            vertical-align: middle;
+            margin-left: 10px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .svg-icon-typing.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* ============================================
@@ -480,6 +523,10 @@
             opacity: 0.9;
             margin-top: 20px;
             min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .typing-text {
@@ -802,6 +849,11 @@
             .modal-content {
                 padding: 30px 20px;
             }
+
+            .svg-icon-large {
+                width: 60px;
+                height: 60px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -814,8 +866,8 @@
             }
 
             .svg-icon-large {
-                width: 60px;
-                height: 60px;
+                width: 50px;
+                height: 50px;
             }
 
             .typing-container {
@@ -926,11 +978,11 @@
                     <label class="form-label" for="interest">Что вас интересует? *</label>
                     <select id="interest" name="interest" class="form-select" required>
                         <option value="" disabled selected>Выберите вариант</option>
-                        <option value="Разработка сайта">💻 Разработка сайта</option>
-                        <option value="Дизайн сайта">🎨 Дизайн сайта</option>
-                        <option value="Редизайн">🔄 Редизайн существующего проекта</option>
-                        <option value="Консультация">💬 Консультация</option>
-                        <option value="Другое">📝 Другое</option>
+                        <option value="Разработка сайта">Разработка сайта</option>
+                        <option value="Дизайн сайта">Дизайн сайта</option>
+                        <option value="Редизайн">Редизайн существующего проекта</option>
+                        <option value="Консультация">Консультация</option>
+                        <option value="Другое">Другое</option>
                     </select>
                 </div>
 
@@ -966,13 +1018,16 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <!-- ✅ SVG иконка УЛЫБАЮЩЕЕСЯ ЛИЦО (обновлено) -->
+                <!-- ✅ SVG иконка УЛЫБАЮЩЕЕСЯ ЛИЦО (КИВАЕТ) -->
                 <svg class="svg-icon svg-icon-large" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
                 </svg>
                 <h1>Привет! Я Елена</h1>
                 <div class="typing-container">
                     <span class="typing-text" id="typingText"></span>
+                    <!-- ✅ SVG иконка появляется ПОСЛЕ завершения текста -->
+                    <svg class="svg-icon svg-icon-typing" id="typingIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    </svg>
                 </div>
             </div>
         </div>
@@ -1278,40 +1333,67 @@
         }
 
         // ============================================
-        // ПЕЧАТАЮЩАЯ МАШИНКА
+        // ПЕЧАТАЮЩАЯ МАШИНКА С SVG ИКОНКАМИ
+        // ✅ Иконки появляются ТОЛЬКО после завершения текста
         // ============================================
-        const texts = [
-            'Создаю красивые сайты ✨',
-            'Разрабатываю дизайн 🎨',
-            'Люблю путешествия ✈️',
-            'Читаю книги 📚',
-            'Открыта к сотрудничеству 🤝'
+        const typingData = [
+            {
+                text: 'Создаю красивые сайты',
+                icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>'
+            },
+            {
+                text: 'Разрабатываю дизайн',
+                icon: '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z"/>'
+            },
+            {
+                text: 'Люблю путешествия',
+                icon: '<path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>'
+            },
+            {
+                text: 'Читаю книги',
+                icon: '<path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>'
+            },
+            {
+                text: 'Открыта к сотрудничеству',
+                icon: '<path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>'
+            }
         ];
         
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
         const typingElement = document.getElementById('typingText');
+        const typingIcon = document.getElementById('typingIcon');
 
         function type() {
-            const currentText = texts[textIndex];
+            const currentData = typingData[textIndex];
             
             if (isDeleting) {
-                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                typingElement.textContent = currentData.text.substring(0, charIndex - 1);
                 charIndex--;
+                
+                // Скрываем иконку во время удаления
+                if (charIndex < currentData.text.length) {
+                    typingIcon.classList.remove('visible');
+                }
             } else {
-                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                typingElement.textContent = currentData.text.substring(0, charIndex + 1);
                 charIndex++;
             }
 
             let typeSpeed = isDeleting ? 50 : 100;
 
-            if (!isDeleting && charIndex === currentText.length) {
-                typeSpeed = 2000;
+            if (!isDeleting && charIndex === currentData.text.length) {
+                // ✅ Текст напечатан полностью - показываем иконку
+                typingIcon.innerHTML = currentData.icon;
+                typingIcon.classList.add('visible');
+                
+                typeSpeed = 2000; // Ждём 2 секунды перед удалением
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
+                // ✅ Текст удалён - переходим к следующему
                 isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
+                textIndex = (textIndex + 1) % typingData.length;
                 typeSpeed = 500;
             }
 
@@ -1379,4 +1461,4 @@
         document.addEventListener('DOMContentLoaded', observeElements);
     </script>
 </body>
-</html>        
+</html>
