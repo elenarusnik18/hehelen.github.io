@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Елена - Персональный сайт</title>
+    
+    <style>
+        /* ============================================
+           БАЗОВЫЕ СТИЛИ И СБРОС
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0a0e27;
+            min-height: 100vh;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ============================================
+           ЗВЁЗДНОЕ НЕБО (ФОН)
+           ============================================ */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #0a0e27 0%, #1a1f4b 50%, #2d1b69 100%);
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.8;
+            z-index: -1;
+            animation: twinkle 5s ease-in-out infinite;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ============================================
+           ИНДИКАТОР ПРОКРУТКИ
+           ============================================ */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #c084fc, #f472b6);
+            z-index: 1000;
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.8);
+        }
+
+        /* ============================================
+           КНОПКА "ДАВАЙ СОТРУДНИЧАТЬ"
+           ============================================ */
+        .collaborate-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(192, 132, 252, 0.5);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            white-space: nowrap;
+        }
+
+        .collaborate-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.7);
+            background: linear-gradient(135deg, #c084fc, #f472b6);
+        }
+
+        .collaborate-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .collaborate-btn::before {
+            content: '✉️';
+            margin-right: 8px;
+        }
+
+        /* ============================================
+           МОДАЛЬНОЕ ОКНО (ФОРМА)
+           ============================================ */
+        .modal-overlay {
+            /* Затемнение фона */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            
+            /* Скрыто по умолчанию */
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            
+            /* Поверх всех элементов */
+            z-index: 2000;
+            
+            /* Центрирование формы */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            /* Показываем модальное окно */
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            /* Белый фон формы */
+            background: linear-gradient(135deg, #1a1f4b 0%, #2d1b69 100%);
+            
+            /* Размеры */
+            width: 100%;
+            max-width: 500px;
+            
+            /* Отступы и скругление */
+            padding: 40px;
+            border-radius: 20px;
+            
+            /* Тень и граница */
+            box-shadow: 0 20px 60px rgba(192, 132, 252, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* Анимация появления */
+            transform: translateY(-50px);
+            transition: all 0.3s ease;
+            
+            /* Позиционирование */
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-content {
+            /* Возвращаем форму на место при открытии */
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            /* Кнопка закрытия (крестик) */
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            
+            /* Размер и цвет */
+            font-size: 28px;
+            color: #ffffff;
+            
+            /* Убираем стили кнопки */
+            background: none;
+            border: none;
+            cursor: pointer;
+            
+            /* Плавность */
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+            transform: scale(1.2);
+            color: #c084fc;
+        }
+
+        .modal-title {
+            /* Заголовок формы */
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .modal-subtitle {
+            /* Подзаголовок */
+            font-size: 14px;
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 30px;
+            color: #c084fc;
+        }
+
+        /* ============================================
+           СТИЛИ ФОРМЫ
+           ============================================ */
+        .form-group {
+            /* Отступ между полями */
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            /* Label поля */
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            /* Поля ввода */
+            width: 100%;
+            padding: 12px 16px;
+            
+            /* Фон и граница */
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            
+            /* Текст */
+            color: #ffffff;
+            font-size: 14px;
+            font-family: inherit;
+            
+            /* Плавность */
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            /* При фокусе */
+            outline: none;
+            border-color: #c084fc;
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-textarea {
+            /* Текстовое поле */
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-select {
+            /* Выпадающий список */
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .form-select option {
+            background: #1a1f4b;
+            color: #ffffff;
+        }
+
+        .form-checkbox-group {
+            /* Группа чекбоксов */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-checkbox {
+            /* Чекбокс */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            /* Стилизация чекбокса */
+            width: 18px;
+            height: 18px;
+            accent-color: #c084fc;
+            cursor: pointer;
+        }
+
+        .form-checkbox span {
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        /* ============================================
+           КНОПКА ОТПРАВКИ
+           ============================================ */
+        .submit-btn {
+            /* Кнопка отправки формы */
+            width: 100%;
+            padding: 14px 24px;
+            
+            /* Градиент */
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            color: #ffffff;
+            
+            /* Убираем рамку */
+            border: none;
+            border-radius: 50px;
+            
+            /* Текст */
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            
+            /* Тень */
+            box-shadow: 0 5px 20px rgba(192, 132, 252, 0.5);
+            
+            /* Плавность */
+            transition: all 0.3s ease;
+            
+            /* Отступ сверху */
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.7);
+            background: linear-gradient(135deg, #c084fc, #f472b6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            /* Неактивная кнопка */
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================
+           СООБЩЕНИЯ ОБ УСПЕХЕ/ОШИБКЕ
+           ============================================ */
+        .form-message {
+            /* Сообщение после отправки */
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #22c55e;
+            display: block;
+        }
+
+        .form-message.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #ef4444;
+            display: block;
+        }
+
+        /* ============================================
+           КОНТЕЙНЕР
+           ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* ============================================
+           ГЛАВНАЯ СЕКЦИЯ
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(192, 132, 252, 0.5);
+        }
+
+        .typing-container {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-top: 20px;
+            min-height: 40px;
+        }
+
+        .typing-text {
+            color: #c084fc;
+            font-weight: 600;
+            border-right: 3px solid #c084fc;
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                border-color: transparent;
+            }
+            50% {
+                border-color: #c084fc;
+            }
+        }
+
+        .emoji-large {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* ============================================
+           СЕКЦИЯ "ОБО МНЕ"
+           ============================================ */
+        .about {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* ============================================
+           СЕКЦИЯ НАВЫКОВ
+           ============================================ */
+        .skills {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .skills-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skill-item {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .skill-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .skill-percent {
+            color: #c084fc;
+            font-weight: 700;
+        }
+
+        .skill-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa, #c084fc, #f472b6);
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
+        }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* ============================================
+           СЕТКА КАРТОЧЕК
+           ============================================ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 20px 60px rgba(192, 132, 252, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           СЕКЦИЯ КОНТАКТОВ
+           ============================================ */
+        .contacts {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .contact-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .contact-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .contact-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           КНОПКА НАВЕРХ
+           ============================================ */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(192, 132, 252, 0.5);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.7);
+        }
+
+        /* ============================================
+           ПОДВАЛ
+           ============================================ */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================
+           АНИМАЦИИ
+           ============================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* ============================================
+           АДАПТИВНАЯ ВЁРСТКА
+           ============================================ */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .typing-container {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid,
+            .contacts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .collaborate-btn {
+                top: 10px;
+                right: 10px;
+                padding: 10px 18px;
+                font-size: 12px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .emoji-large {
+                font-size: 3rem;
+            }
+
+            .typing-container {
+                font-size: 1rem;
+            }
+
+            .cards-grid,
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            .about-content {
+                font-size: 1rem;
+            }
+
+            .card:hover {
+                transform: translateY(-10px);
+            }
+
+            .skill-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .collaborate-btn {
+                top: 10px;
+                right: 10px;
+                padding: 8px 16px;
+                font-size: 11px;
+            }
+
+            .collaborate-btn::before {
+                margin-right: 5px;
+            }
+
+            .modal-content {
+                padding: 25px 15px;
+            }
+
+            .modal-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ИНДИКАТОР ПРОКРУТКИ -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- 
+    ============================================
+    КНОПКА "ДАВАЙ СОТРУДНИЧАТЬ"
+    ============================================
+    -->
+    <button class="collaborate-btn" onclick="openModal()">
+        Давай сотрудничать
+    </button>
+
+    <!-- 
+    ============================================
+    МОДАЛЬНОЕ ОКНО С ФОРМОЙ
+    ============================================
+    -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <!-- Кнопка закрытия (крестик) -->
+            <button class="modal-close" onclick="closeModalBtn()">&times;</button>
+            
+            <!-- Заголовок -->
+            <h3 class="modal-title">🤝 Давайте сотрудничать!</h3>
+            <p class="modal-subtitle">Заполните форму, и я свяжусь с вами в ближайшее время</p>
+            
+            <!-- 
+            ============================================
+            ФОРМА ОТПРАВКИ
+            ============================================
+            ВАЖНО: Замените YOUR_FORMSPREE_ID на ваш реальный ID от Formspree
+            1. Зайдите на https://formspree.io
+            2. Зарегистрируйтесь (бесплатно)
+            3. Создайте новую форму
+            4. Скопируйте ID формы и вставьте вместо YOUR_FORMSPREE_ID
+            -->
+            <form id="collaborationForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+                
+                <!-- Поле: ФИО -->
+                <div class="form-group">
+                    <label class="form-label" for="fullName">ФИО *</label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        class="form-input" 
+                        placeholder="Иванов Иван Иванович"
+                        required
+                    >
+                </div>
+
+                <!-- Поле: Контакты -->
+                <div class="form-group">
+                    <label class="form-label" for="contacts">Контакты *</label>
+                    <input 
+                        type="text" 
+                        id="contacts" 
+                        name="contacts" 
+                        class="form-input" 
+                        placeholder="Email, телефон или Telegram"
+                        required
+                    >
+                </div>
+
+                <!-- Поле: Что интересует (выпадающий список) -->
+                <div class="form-group">
+                    <label class="form-label" for="interest">Что вас интересует? *</label>
+                    <select id="interest" name="interest" class="form-select" required>
+                        <option value="" disabled selected>Выберите вариант</option>
+                        <option value="Разработка сайта"> Разработка сайта</option>
+                        <option value="Дизайн сайта">🎨 Дизайн сайта</option>
+                        <option value="Редизайн">🔄 Редизайн существующего проекта</option>
+                        <option value="Консультация">💬 Консультация</option>
+                        <option value="Другое">📝 Другое</option>
+                    </select>
+                </div>
+
+                <!-- Поле: Детали проекта -->
+                <div class="form-group">
+                    <label class="form-label" for="details">Детали проекта</label>
+                    <textarea 
+                        id="details" 
+                        name="details" 
+                        class="form-textarea" 
+                        placeholder="Опишите ваш проект, сроки, бюджет и другие детали..."
+                    ></textarea>
+                </div>
+
+                <!-- Кнопка отправки -->
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    📩 Отправить заявку
+                </button>
+
+                <!-- Сообщение об успехе/ошибке -->
+                <div class="form-message" id="formMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Звёзды -->
+    <div class="stars" id="stars"></div>
+
+    <!-- ГЛАВНАЯ СЕКЦИЯ -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="emoji-large">👋</span>
+                <h1>Привет! Я Елена</h1>
+                <div class="typing-container">
+                    <span class="typing-text" id="typingText"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ "ОБО МНЕ" -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2>Обо мне</h2>
+            <div class="about-content">
+                <p>
+                    Я творческая личность со страстью к созданию прекрасного. 
+                    Люблю учиться новому, развиваться профессионально и находить вдохновение 
+                    в простых вещах. Верю, что каждый день — это возможность стать лучше, 
+                    чем вчера. Открыта к сотрудничеству и новым интересным проектам!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ НАВЫКОВ -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2>Мои навыки</h2>
+            <div class="skills-container">
+                <div class="skill-item" data-skill="90">
+                    <div class="skill-header">
+                        <span class="skill-name">Веб-дизайн</span>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item" data-skill="85">
+                    <div class="skill-header">
+                        <span class="skill-name">HTML/CSS</span>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item" data-skill="75">
+                    <div class="skill-header">
+                        <span class="skill-name">JavaScript</span>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item" data-skill="95">
+                    <div class="skill-header">
+                        <span class="skill-name">Коммуникация</span>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item" data-skill="80">
+                    <div class="skill-header">
+                        <span class="skill-name">Управление проектами</span>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ С ИНТЕРЕСАМИ -->
+    <section class="interests" id="interests">
+        <div class="container">
+            <h2>Мои интересы</h2>
+            <div class="cards-grid">
+                <div class="card" data-delay="0">
+                    <span class="card-icon">📚</span>
+                    <h3>Чтение</h3>
+                    <p>Обожаю художественную литературу и профессиональную литературу. 
+                       Читаю каждый день, чтобы расширять кругозор и развиваться.</p>
+                </div>
+
+                <div class="card" data-delay="200">
+                    <span class="card-icon">✈️</span>
+                    <h3>Путешествия</h3>
+                    <p>Исследую новые города и страны. Люблю открывать для себя 
+                       новые культуры, традиции и вкусы. Мечтаю объездить весь мир!</p>
+                </div>
+
+                <div class="card" data-delay="400">
+                    <span class="card-icon">🎨</span>
+                    <h3>Творчество</h3>
+                    <p>Занимаюсь дизайном, фотографией и рисованием. Творчество 
+                       помогает мне выражать себя и видеть красоту в деталях.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЕКЦИЯ КОНТАКТОВ -->
+    <section class="contacts" id="contacts">
+        <div class="container">
+            <h2>Контакты</h2>
+            <div class="contacts-grid">
+                <div class="contact-item" data-delay="0">
+                    <span class="contact-icon">📧</span>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">elena.elena@mail.ru</div>
+                </div>
+
+                <div class="contact-item" data-delay="150">
+                    <span class="contact-icon">📱</span>
+                    <div class="contact-label">Телефон</div>
+                    <div class="contact-value">+7 (999) 123-45-67</div>
+                </div>
+
+                <div class="contact-item" data-delay="300">
+                    <span class="contact-icon">✈️</span>
+                    <div class="contact-label">Telegram</div>
+                    <div class="contact-value">@elena_contact</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОДВАЛ -->
+    <footer>
+        <div class="container">
+            <p>© 2024 Елена. Все права защищены. ❤️</p>
+        </div>
+    </footer>
+
+    <!-- КНОПКА НАВЕРХ -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script>
+        // ============================================
+        // ГЕНЕРАЦИЯ ЗВЁЗД
+        // ============================================
+        const starsContainer = document.getElementById('stars');
+        const numberOfStars = 100;
+
+        for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2 + 1;
+            const delay = Math.random() * 5;
+            
+            star.style.left = x + '%';
+            star.style.top = y + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.animationDelay = delay + 's';
+            
+            starsContainer.appendChild(star);
+        }
+
+        // ============================================
+        // МОДАЛЬНОЕ ОКНО - ОТКРЫТЬ
+        // ============================================
+        function openModal() {
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+        }
+
+        // ============================================
+        // МОДАЛЬНОЕ ОКНО - ЗАКРЫТЬ (по клику на фон)
+        // ============================================
+        function closeModal(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                document.getElementById('modalOverlay').classList.remove('active');
+                document.body.style.overflow = ''; // Возвращаем прокрутку
+            }
+        }
+
+        // ============================================
+        // МОДАЛЬНОЕ ОКНО - ЗАКРЫТЬ (по кнопке)
+        // ============================================
+        function closeModalBtn() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ============================================
+        // ЗАКРЫТИЕ ПО КЛАВИШЕ ESC
+        // ============================================
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModalBtn();
+            }
+        });
+
+        // ============================================
+        // ОБРАБОТКА ОТПРАВКИ ФОРМЫ
+        // ============================================
+        const form = document.getElementById('collaborationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Предотвращаем стандартную отправку
+
+            // Показываем состояние загрузки
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Отправка...';
+            formMessage.className = 'form-message';
+            formMessage.textContent = '';
+
+            // Собираем данные формы
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            try {
+                // Отправляем данные на Formspree
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Успешная отправка
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = '✅ Заявка успешно отправлена! Я свяжусь с вами в ближайшее время.';
+                    form.reset(); // Очищаем форму
+                    
+                    // Закрываем модальное окно через 3 секунды
+                    setTimeout(() => {
+                        closeModalBtn();
+                        formMessage.className = 'form-message';
+                    }, 3000);
+                } else {
+                    // Ошибка сервера
+                    throw new Error('Ошибка отправки');
+                }
+            } catch (error) {
+                // Ошибка
+                formMessage.className = 'form-message error';
+                formMessage.textContent = '❌ Произошла ошибка при отправке. Пожалуйста, попробуйте позже или напишите напрямую на elena.elena@mail.ru';
+            } finally {
+                // Возвращаем кнопку в исходное состояние
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📩 Отправить заявку';
+            }
+        });
+
+        // ============================================
+        // ИНДИКАТОР ПРОКРУТКИ
+        // ============================================
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+            
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 500) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        // ============================================
+        // ФУНКЦИЯ ПРОКРУТКИ НАВЕРХ
+        // ============================================
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // ============================================
+        // ПЕЧАТАЮЩАЯ МАШИНКА
+        // ============================================
+        const texts = [
+            'Создаю красивые сайты ✨',
+            'Разрабатываю дизайн 🎨',
+            'Люблю путешествия ✈️',
+            'Читаю книги 📚',
+            'Открыта к сотрудничеству 🤝'
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typingText');
+
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        type();
+
+        // ============================================
+        // АНИМАЦИЯ НАВЫКОВ ПРИ ПРОКРУТКЕ
+        // ============================================
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillPercent = entry.target.getAttribute('data-skill');
+                    const progressBar = entry.target.querySelector('.skill-progress');
+                    
+                    setTimeout(() => {
+                        progressBar.style.width = skillPercent + '%';
+                        entry.target.classList.add('visible');
+                    }, 200);
+                    
+                    skillsObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.skill-item').forEach(item => {
+            skillsObserver.observe(item);
+        });
+
+        // ============================================
+        // АНИМАЦИЯ ПОЯВЛЕНИЯ КАРТОЧЕК
+        // ============================================
+        function observeElements() {
+            const cards = document.querySelectorAll('.card');
+            const contactItems = document.querySelectorAll('.contact-item');
+            const elementsToObserve = [...cards, ...contactItems];
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, delay);
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            elementsToObserve.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', observeElements);
+    </script>
+</body>
+</html>
